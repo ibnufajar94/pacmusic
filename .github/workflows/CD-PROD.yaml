@@ -10,6 +10,7 @@ jobs:
   deploy-production:
     name: Deploy to production server 🚀
     runs-on: ubuntu-latest
+    environment:  production 
 
     steps:
       - name: Execute deployment command
@@ -20,7 +21,7 @@ jobs:
           MINIO_STG_ENDPOINT: ${{ secrets.MINIO_STG_ENDPOINT }}
           MINIO_STG_ACCESS_KEY: ${{ secrets.MINIO_STG_ACCESS_KEY }}
           MINIO_STG_SECRET_KEY: ${{ secrets.MINIO_STG_SECRET_KEY }}
-          APP_STG_PORT: ${{ secrets.APP_STG_PORT }}
+          APP_PROD_PORT: ${{ secrets.APP_PROD_PORT }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           APP_NAME: pacmusic
@@ -30,7 +31,7 @@ jobs:
           host: ${{ secrets.SSH_HOST_PROD }}
           username: ${{ secrets.SSH_USER_NAME_PROD }}
           key: ${{ secrets.SSH_PRIVATE_KEY_PROD }}
-          envs: APP_PROD_PATH, GIT_URL, MINIO_STG_ENDPOINT, MINIO_STG_ACCESS_KEY, MINIO_STG_SECRET_KEY, APP_STG_PORT, DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, APP_NAME, APP_TAG
+          envs: APP_PROD_PATH, GIT_URL, MINIO_STG_ENDPOINT, MINIO_STG_ACCESS_KEY, MINIO_STG_SECRET_KEY, APP_PROD_PORT, DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, APP_NAME, APP_TAG
           script: |
 
             sudo docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
@@ -49,7 +50,7 @@ jobs:
             echo "MINIO_STG_ENDPOINT" >> .env
             echo "MINIO_STG_ACCESS_KEY" >> .env
             echo "MINIO_STG_SECRET_KEY" >> .env
-            echo "APP_STG_PORT" >> .env
+            echo "APP_PROD_PORT" >> .env
             echo "APP_IMAGE=${DOCKERHUB_USERNAME}/${APP_NAME}" >> .env
             echo "APP_TAG=$APP_TAG" >> .env
 
